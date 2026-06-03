@@ -1,0 +1,103 @@
+================================================================================
+REPORTE TÉCNICO Y DOCUMENTACIÓN: SISTEMA DE GESTIÓN DE PROYECTOS (FASE 1)
+================================================================================
+
+1. INFORMACIÓN GENERAL DEL PROYECTO
+--------------------------------------------------------------------------------
+Este documento sirve como evidencia técnica de la Fase 1 para el desarrollo de un Sistema de Gestión de Proyectos. La aplicación ha sido construida bajo la arquitectura cliente-servidor (Full-Stack) y permite gestionar proyectos y sus respectivas tareas, mejorando la coordinación y productividad de equipos de desarrollo.
+
+ENLACES DEL PROYECTO
+- Código Fuente (Repositorio Git Público): [ PEGA AQUÍ TU ENLACE DE GITHUB ]
+- Video Demostrativo: [ PEGA AQUÍ EL ENLACE A TU VIDEO ]
+
+
+2. ARQUITECTURA Y DISEÑO DEL SISTEMA
+--------------------------------------------------------------------------------
+La arquitectura del proyecto está estructurada en dos capas independientes que se comunican a través de una API RESTful, promoviendo la escalabilidad y el mantenimiento del código.
+
+### 2.1 Backend (Servidor)
+- Lenguaje/Entorno: Node.js
+- Framework: Express.js (para la creación y enrutamiento de la API)
+- Base de Datos: SQLite (elegida por su portabilidad local sin requerir configuración de servidor externo en la etapa de desarrollo).
+- ORM: Sequelize (garantiza operaciones CRUD eficientes y seguras contra inyecciones SQL).
+
+Modelos de Datos Implementados:
+- User (Usuarios): id, name, email.
+- Project (Proyectos): id, title, description.
+- Task (Tareas): id, title, description, status ('To Do', 'In Progress', 'Done'), projectId (relación 1:N con proyectos).
+
+### 2.2 Frontend (Cliente)
+- Librería Principal: React.js
+- Herramienta de Construcción: Vite (para compilación ultra rápida).
+- Enrutamiento: React Router (Navegación sin recarga de página o SPA).
+- Estilos Visuales: Vanilla CSS. Se aplicó la tendencia de diseño "Glassmorphism" con variables CSS, asegurando una estética moderna, modo oscuro y diseño totalmente responsivo adaptado a la experiencia de usuario (UX).
+- Comunicación HTTP: Axios.
+
+
+3. ESTRUCTURA DE DIRECTORIOS (FEATURE BRANCHING PREPARADO)
+--------------------------------------------------------------------------------
+El proyecto se encuentra inicializado con Git para el control de versiones, organizando la base de código de la siguiente manera:
+
+Proyecto 1/
+├── backend/
+│   ├── src/
+│   │   ├── db/database.js     # Configuración conexión SQLite
+│   │   ├── models/            # Esquemas Sequelize (User, Project, Task)
+│   │   ├── routes/            # Controladores de la API REST
+│   │   └── index.js           # Punto de entrada Express
+│   ├── database.sqlite        # Base de datos física
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/        # Componentes UI reutilizables (Sidebar)
+│   │   ├── pages/             # Vistas (Dashboard, Projects, Tasks)
+│   │   ├── services/api.js    # Instancia Axios global
+│   │   ├── App.jsx            # Enrutador principal
+│   │   └── index.css          # Design System (Tokens y Glassmorphism)
+│   └── package.json
+└── README.md
+
+
+4. INSTRUCCIONES DE DESPLIEGUE Y CONFIGURACIÓN
+--------------------------------------------------------------------------------
+A continuación, se describen los pasos para inicializar el proyecto en cualquier entorno de desarrollo local.
+
+Paso 1: Inicialización del Backend
+1. Abrir una terminal en el directorio `backend`.
+2. Instalar dependencias mediante el gestor de paquetes: `npm install`
+3. Iniciar el servidor: `node src/index.js`
+4. Confirmación: La consola imprimirá "Database synced" y "Server is running on port 5000".
+
+Paso 2: Inicialización del Frontend
+1. Abrir una nueva terminal en el directorio `frontend`.
+2. Instalar dependencias: `npm install`
+3. Iniciar el entorno de desarrollo Vite: `npm run dev`
+4. Confirmación: La aplicación estará accesible desde un navegador web en `http://localhost:5173`.
+
+Despliegue en Producción (Estrategia Recomendada):
+Para llevar la aplicación a un entorno en vivo, el código de React en el Frontend debe compilarse con `npm run build` y servirse como archivos estáticos en plataformas como Vercel o AWS S3. El Backend en Node.js debería alojarse en servicios como Render, Railway o AWS EC2, sustituyendo SQLite por una base de datos de producción como PostgreSQL.
+
+
+5. REPORTE DE PRUEBAS FUNCIONALES
+--------------------------------------------------------------------------------
+Se ejecutaron pruebas integrales de validación (QA) para asegurar la comunicación bidireccional entre la Interfaz de Usuario y la Base de Datos.
+
+[ 🖼️ INSTRUCCIÓN: PEGA AQUÍ UNA CAPTURA DEL DASHBOARD PRINCIPAL ]
+Prueba 1: Carga inicial y obtención de métricas.
+- Objetivo: Verificar que el Dashboard obtenga el conteo real de Proyectos y Tareas mediante los endpoints `GET /api/projects` y `GET /api/tasks`.
+- Resultado: Exitoso. La interfaz muestra los contadores sincronizados con la base de datos sin errores de CORS.
+
+[ 🖼️ INSTRUCCIÓN: PEGA AQUÍ UNA CAPTURA DEL MODAL CREANDO UN PROYECTO ]
+Prueba 2: Inserción de nuevos registros (Create).
+- Objetivo: Comprobar el funcionamiento del formulario dinámico de Proyectos y su validación HTML5.
+- Resultado: Exitoso. Tras enviar el formulario, el payload JSON viaja por Axios (`POST /api/projects`), se guarda en SQLite mediante Sequelize, el modal se cierra fluidamente y la lista se actualiza automáticamente.
+
+[ 🖼️ INSTRUCCIÓN: PEGA AQUÍ UNA CAPTURA DE LA VISTA DE TAREAS ]
+Prueba 3: Relaciones e Identificadores (Foreign Keys).
+- Objetivo: Asegurar que una Tarea pueda asociarse correctamente a un Proyecto existente.
+- Resultado: Exitoso. El selector de la vista "Tareas" recupera dinámicamente los Proyectos. La tarea creada muestra visualmente a qué proyecto pertenece mediante las relaciones (belongsTo) de Sequelize.
+
+
+6. CONCLUSIÓN
+--------------------------------------------------------------------------------
+Esta Fase 1 se concluye exitosamente al lograr una aplicación web Full-Stack moderna. La aplicación no solo es funcionalmente robusta en su persistencia de datos (CRUD), sino que también implementa técnicas de diseño de vanguardia que elevan significativamente la experiencia e interactividad del usuario final.
